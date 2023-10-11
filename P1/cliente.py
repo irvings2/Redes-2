@@ -12,10 +12,13 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         file_data = s.recv(4096)
         print('Ingresa la llave: ', end=" ")
         key = input()
-        cipher_suite = Fernet(key.encode())
-        # Desencripta el mensaje si la llave es correcta
-        plain_text = cipher_suite.decrypt(file_data)
-        with open('archivo_descargado.txt', 'wb') as f:
-            f.write(plain_text)
+        if len(key) == 44:
+            cipher_suite = Fernet(key.encode())
+            # Desencripta el mensaje si la llave es correcta
+            plain_text = cipher_suite.decrypt(file_data)
+            with open('archivo_descargado.txt', 'wb') as f:
+                f.write(plain_text)
+        else:
+            print("Error, llave incorrecta")
     else:
         print('Error al recibir el archivo')

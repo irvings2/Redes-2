@@ -1,11 +1,6 @@
 import socket
 from cryptography.fernet import Fernet
 
-# Genera una clave de cifrado aleatoria
-key = Fernet.generate_key()
-cipher_suite = Fernet(key)
-print(key.decode())
-
 HOST = '127.0.0.1'
 PORT = 65432
 
@@ -23,6 +18,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 with open(nombre_archivo, 'rb') as f:
                     file_data = f.read()
                 conn.sendall(b'OK')
+                # Genera una clave de cifrado aleatoria
+                key = Fernet.generate_key()
+                cipher_suite = Fernet(key)
+                print(key.decode())
                 # Encripta el mensaje
                 cipher_text = cipher_suite.encrypt(file_data)
                 conn.sendall(cipher_text)
